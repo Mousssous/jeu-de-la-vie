@@ -20,7 +20,7 @@ def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
     Chaque cellule sera taguée par la chaine 'c_lin_col' et leur texte par la chaine 't_lin_col'.
     De plus, les deux seront taguées en plus par la chaine 'lin_col'.
     Un click avec le bouton gauche de la souris sur une cellule échangera ses couleurs de fond et d'avant-plan."""
-    c = Canvas(master, bg="ivory", highlightthickness=0, bd=margin, width=grid_manager.nb_columns(grid)*(size_cell+gutter)+margin, height=grid_manager.nb_lines(grid)*(size_cell+gutter)+margin)
+    c = Canvas(master, bg=COLORS['bg'], highlightthickness=0, bd=margin, width=grid_manager.nb_columns(grid)*(size_cell+gutter)+margin, height=grid_manager.nb_lines(grid)*(size_cell+gutter)+margin)
     c.pack()
     x = -1
     for i in range(margin, (size_cell+gutter)*grid_manager.nb_lines(grid), size_cell+gutter):
@@ -28,18 +28,8 @@ def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
         y = -1
         for j in range(margin, (size_cell+gutter)*grid_manager.nb_columns(grid), size_cell+gutter):
             y += 1
-            if show_vals == True and outline == True:
-                c.create_rectangle(i, j, i+size_cell, j+size_cell, fill="ivory", tags=["c_" + str(x) + "_" + str(y), str(x) + "_" + str(y)])
-                c.create_text(i+size_cell/2, j+size_cell/2, text=grid[x][y], tags=["t_" + str(x) + "_" + str(y), str(x) + "_" + str(y)])
-            elif show_vals == True and outline != True:
-                c.create_rectangle(i, j, i+size_cell, j+size_cell, fill="ivory", tags=["c_" + str(x) + "_" + str(y), str(x) + "_" + str(y)], outline="")
-                c.create_text(i+size_cell/2, j+size_cell/2, text=grid[x][y], tags=["t_" + str(x) + "_" + str(y), str(x) + "_" + str(y)])
-            elif show_vals != True and outline == True:
-                c.create_rectangle(i, j, i+size_cell, j+size_cell, fill="ivory", tags=["c_" + str(x) + "_" + str(y), str(x) + "_" + str(y)])
-                c.create_text(i+size_cell/2, j+size_cell/2, text=grid[x][y], tags=["t_" + str(x) + "_" + str(y), str(x) + "_" + str(y)], fill="ivory")
-            else:
-                c.create_rectangle(i, j, i+size_cell, j+size_cell, fill="ivory", tags=["c_" + str(x) + "_" + str(y), str(x) + "_" + str(y)], outline="")
-                c.create_text(i+size_cell/2, j+size_cell/2, text=grid[x][y], tags=["t_" + str(x) + "_" + str(y), str(x) + "_" + str(y)], fill="ivory")
+            c.create_rectangle(i, j, i+size_cell, j+size_cell, fill="ivory", tags=["c_" + str(x) + "_" + str(y), str(x) + "_" + str(y)], outline=(COLORS['outline'] if outline==True else ""))
+            c.create_text(i+size_cell/2, j+size_cell/2, font=FONT['text_val'], fill=COLORS['text_val'], text=(grid[x][y] if show_vals==True else ""), tags=["t_" + str(x) + "_" + str(y), str(x) + "_" + str(y)])
 
 
 def get_lines_columns(can):

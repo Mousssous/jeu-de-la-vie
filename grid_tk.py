@@ -11,7 +11,7 @@ FONT = {'text_val': 'Arial'}
 
 
 def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
-    """Retourn un 'Canvas' placé dans la fenêtre 'master'. Celui-ci est construit à partir de la grille 'grid'
+    """Retourne un 'Canvas' placé dans la fenêtre 'master'. Celui-ci est construit à partir de la grille 'grid'
     en s'appuyant sur les modules 'grid_manager' et 'tkinter' ainsi que sur les dictionnaires des paramètres de forme.
     La largeur et la hauteur du Canvas sont calculés en considérant la taille 'size_cell' d'une cellule, la valeur de
     marge 'margin' autour de la grille et d'une taille de gouttière 'gutter' entre les lignes et les colonnes.

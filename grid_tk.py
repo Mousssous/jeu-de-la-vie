@@ -20,21 +20,19 @@ def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
     Chaque cellule sera taguée par la chaine 'c_lin_col' et leur texte par la chaine 't_lin_col'.
     De plus, les deux seront taguées en plus par la chaine 'lin_col'.
     Un click avec le bouton gauche de la souris sur une cellule échangera ses couleurs de fond et d'avant-plan."""
-    c = Canvas(master, bg=COLORS['bg'], highlightthickness=0, bd=margin, width=grid_manager.nb_columns(grid)*(size_cell+gutter)+margin, height=grid_manager.nb_lines(grid)*(size_cell+gutter)+margin)
-    c.pack()
-    x = -1
-    for i in range(margin, (size_cell+gutter)*grid_manager.nb_lines(grid), size_cell+gutter):
-        x += 1
-        y = -1
-        for j in range(margin, (size_cell+gutter)*grid_manager.nb_columns(grid), size_cell+gutter):
-            y += 1
-            c.create_rectangle(i, j, i+size_cell, j+size_cell, fill="ivory", tags=["c_" + str(x) + "_" + str(y), str(x) + "_" + str(y)], outline=(COLORS['outline'] if outline==True else ""))
-            c.create_text(i+size_cell/2, j+size_cell/2, font=FONT['text_val'], fill=COLORS['text_val'], text=(grid[x][y] if show_vals==True else ""), tags=["t_" + str(x) + "_" + str(y), str(x) + "_" + str(y)])
+    longueurTableau=grid_manager.nb_columns(grid)*(size_cell+gutter)+gutter
+    hauteurTableau=grid_manager.nb_lines(grid)*(size_cell+gutter)+gutter
+    c = Canvas(master, bg=COLORS['bg'], highlightthickness=0, bd=margin, width=margin+longueurTableau+margin, height=margin+hauteurTableau+margin)
 
+    for x,i in enumerate(range(margin, hauteurTableau+margin, size_cell+gutter)):
+        for y,j in enumerate(range(margin, longueurTableau+margin, size_cell+gutter)):
+            c.create_rectangle(j, i, j+size_cell, i+size_cell, fill="ivory", tags="c_{}_{}".format(str(x), str(y)), outline=(COLORS['outline'] if outline==True else ""))
+            c.create_text(j+size_cell/2, i+size_cell/2, font=FONT['text_val'], fill=COLORS['text_val'], text=(grid[x][y] if show_vals==True else ""), tags="t_{}_{}".format(str(x), str(y)))
+    return c
 
 def get_lines_columns(can):
     """Retourne le nombre de lignes et de colonnes de la grille représentée par le Canvas 'can'."""
-    pass
+    return (len([can.gettags(i) for i in can.find_all() if can.gettags(i)[0][-2:]=="_0" and can.gettags(i)[0][0]=="c"]), len([can.gettags(i) for i in can.find_all() if can.gettags(i)[0][0:4]=="c_0_"]))
 
 
 def get_grid(can):
@@ -84,7 +82,9 @@ def set_cell(can, grid, i, j, val, color_case, show_vals=True, outline=True, col
 if __name__ == "__main__":
     """Définitions des variables de test et des tests de chaque fonction"""
     fen = Tk()
-    grille = grid_manager.create_random_grid_lc(10, 10, [0, 1])
-    grid_canvas(fen, grille, 20, 10, 0, show_vals=True, outline=True)
+    grille = grid_manager.create_random_grid_lc(3, 2, [0, 1])
+    cnv=grid_canvas(fen, grille, 20, 10, 0, show_vals=True, outline=True)
+    cnv.pack()
+    print(get_lines_columns(cnv))
 
     fen.mainloop()

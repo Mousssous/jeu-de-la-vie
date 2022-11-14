@@ -22,7 +22,7 @@ def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
     Un click avec le bouton gauche de la souris sur une cellule échangera ses couleurs de fond et d'avant-plan."""
     longueurTableau=grid_manager.nb_columns(grid)*(size_cell+gutter)+gutter
     hauteurTableau=grid_manager.nb_lines(grid)*(size_cell+gutter)+gutter
-    c = Canvas(master, bg=COLORS['bg'], highlightthickness=0, bd=margin, width=margin+longueurTableau+margin, height=margin+hauteurTableau+margin)
+    c = Canvas(master, bg=COLORS['bg'], highlightthickness=0, width=margin+longueurTableau+margin, height=margin+hauteurTableau+margin)
 
     for x,i in enumerate(range(margin, hauteurTableau+margin, size_cell+gutter)):
         for y,j in enumerate(range(margin, longueurTableau+margin, size_cell+gutter)):

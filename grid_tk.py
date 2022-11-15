@@ -23,10 +23,10 @@ def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
     longueurTableau=grid_manager.nb_columns(grid)*(size_cell+gutter)+gutter
     hauteurTableau=grid_manager.nb_lines(grid)*(size_cell+gutter)+gutter
     c = Canvas(master, bg=COLORS['bg'], highlightthickness=0, width=margin+longueurTableau+margin, height=margin+hauteurTableau+margin)
-    for x,i in enumerate(range(margin, hauteurTableau+margin, size_cell+gutter)):
-        for y,j in enumerate(range(margin, longueurTableau+margin, size_cell+gutter)):
+    for y,i in enumerate(range(margin, hauteurTableau+margin, size_cell+gutter)):
+        for x,j in enumerate(range(margin, longueurTableau+margin, size_cell+gutter)):
             c.create_rectangle(j, i, j+size_cell, i+size_cell, fill="ivory", tags="c_{}_{}".format(str(x), str(y)), outline=(COLORS['outline'] if outline==True else ""))
-            c.create_text(j+size_cell/2, i+size_cell/2, font=FONT['text_val'], fill=COLORS['text_val'], text=(grid[x][y] if show_vals==True else ""), tags="t_{}_{}".format(str(x), str(y)))
+            c.create_text(j+size_cell/2, i+size_cell/2, font=FONT['text_val'], fill=COLORS['text_val'], text=(grid[y][x] if show_vals==True else ""), tags="t_{}_{}".format(str(x), str(y)))
 
     def onclick(x,y):
         tag = "c_{}_{}".format((x-margin-gutter)//size_cell, (y-margin-gutter)//size_cell)
@@ -36,7 +36,7 @@ def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
         else:
             c.itemconfig(tag, fill=COLORS["fg"])
             
-    c.bind("<Button-1>", lambda event: onclick(event.y, event.x))
+    c.bind("<Button-1>", lambda event: onclick(event.x, event.y))
     return c
 
 def get_lines_columns(can):
@@ -46,12 +46,12 @@ def get_lines_columns(can):
 
 def get_grid(can):
     """Retourne la grille représentée par le Canvas 'can'."""
-    pass
+    return [(can.coords(i)[0]//size_cell, can.coords(i)[1]//size_cell) for i in can.find_all() if can.itemcget(i, "tags")[0]=="t"]
 
 
 def get_color_cell(can, i, j):
     """Retourne la couleur de la cellule ('i', 'j') de la grille représentée par le Canvas 'can'."""
-    pass
+    return can.itemcget("c_{}_{}".format(i,j), "fill")
 
 
 def set_color_cell(can, i, j, color, outline=True):
@@ -95,5 +95,6 @@ if __name__ == "__main__":
     cnv=grid_canvas(fen, grille, 20, 10, 0, show_vals=True, outline=True)
     cnv.pack()
     print(get_lines_columns(cnv))
-
+    #print(get_grid(cnv))
+    
     fen.mainloop()

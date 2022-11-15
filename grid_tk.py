@@ -41,12 +41,12 @@ def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
 
 def get_lines_columns(can):
     """Retourne le nombre de lignes et de colonnes de la grille représentée par le Canvas 'can'."""
-    return (len([can.gettags(i) for i in can.find_all() if can.gettags(i)[0][-2:]=="_0" and can.gettags(i)[0][0]=="c"]), len([can.gettags(i) for i in can.find_all() if can.gettags(i)[0][0:4]=="c_0_"]))
+    return (len([can.gettags(i) for i in can.find_all() if can.gettags(i)[0][0:4]=="c_0_"]), len([can.gettags(i) for i in can.find_all() if can.gettags(i)[0][-2:]=="_0" and can.gettags(i)[0][0]=="c"]))
 
 
 def get_grid(can):
     """Retourne la grille représentée par le Canvas 'can'."""
-    return [(can.coords(i)[0]//size_cell, can.coords(i)[1]//size_cell) for i in can.find_all() if can.itemcget(i, "tags")[0]=="t"]
+    return [[can.itemcget("t_{}_{}".format(j,i), "text") for j in range(get_lines_columns(can)[1])] for i in range(get_lines_columns(can)[0])]
 
 
 def get_color_cell(can, i, j):
@@ -97,7 +97,7 @@ def set_cell(can, grid, i, j, val, color_case, show_vals=True, outline=True, col
 if __name__ == "__main__":
     """Définitions des variables de test et des tests de chaque fonction"""
     fen = Tk()
-    grille = grid_manager.create_random_grid_lc(5, 5, [0, 1])
+    grille = grid_manager.create_random_grid_lc(5, 6, [0, 1])
     cnv=grid_canvas(fen, grille, 20, 10, 0, show_vals=True, outline=True)
     cnv.pack()
     print(get_lines_columns(cnv))
@@ -106,4 +106,5 @@ if __name__ == "__main__":
     set_color_text(cnv, 1, 1, "purple")
     set_cell_text(cnv, 1, 1, 8)
     set_cell(cnv, grid_manager.create_random_grid_lc(5, 5, [0, 1]), 1, 1, 2, "white")
+    print(get_grid(cnv))
     fen.mainloop()

@@ -25,7 +25,7 @@ def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
     c = Canvas(master, bg=COLORS['bg'], highlightthickness=0, width=margin+longueurTableau+margin, height=margin+hauteurTableau+margin)
     for y,i in enumerate(range(margin, hauteurTableau+margin, size_cell+gutter)):
         for x,j in enumerate(range(margin, longueurTableau+margin, size_cell+gutter)):
-            c.create_rectangle(j, i, j+size_cell, i+size_cell, fill="ivory", tags="c_{}_{}".format(str(x), str(y)), outline=(COLORS['outline'] if outline==True else ""))
+            c.create_rectangle(j, i, j+size_cell, i+size_cell, fill="ivory", tags="c_{}_{}".format(str(x), str(y)), outline=COLORS['outline'] if outline==True else "")
             c.create_text(j+size_cell/2, i+size_cell/2, font=FONT['text_val'], fill=COLORS['text_val'], text=(grid[y][x] if show_vals==True else ""), tags="t_{}_{}".format(str(x), str(y)))
 
     def onclick(x,y):
@@ -57,10 +57,9 @@ def get_color_cell(can, i, j):
 def set_color_cell(can, i, j, color, outline=True):
     """Rempli la cellule ('i', 'j') de la grille représentée par le Canvas 'can' par la couleur 'color'.
     Dessine ses bordures avec la couleur 'color' si 'outline' a la valeur 'False'."""
+    can.itemconfig("c_{}_{}".format(i,j), fill=color)
     if outline:
-        can.itemconfig("c_{}_{}".format(i,j), fill=color)
-    '''else:
-        can.itemconfig("c_{}_{}".format(i,j), fill=color)'''
+        can.itemconfig("c_{}_{}".format(i,j), outline=color)
 
 
 def get_color_text(can, i, j):
@@ -88,13 +87,17 @@ def set_cell(can, grid, i, j, val, color_case, show_vals=True, outline=True, col
     """Modifie la grille 'grid' et le Canvas 'can' en affectant la valeur 'val' à la cellule ('i', 'j').
     Change la couleur du texte par 'color_text' et la valeur par 'val' si 'show_vals' a la valeur 'True'.
     Dessine les bordures de la cellule selon la valeur booléenne de 'outline'."""
-    pass
+    grid[i][j]=val
+    can.itemconfig("t_{}_{}".format(i,j), fill=color_text)
+    can.itemconfig("t_{}_{}".format(i,j), text=val) if show_vals else None
+    can.itemconfig("c_{}_{}".format(i,j), outline=COLORS["outline"] if outline else "")
+    can.itemconfig("c_{}_{}".format(i,j), fill=color_case)
 
 
 if __name__ == "__main__":
     """Définitions des variables de test et des tests de chaque fonction"""
     fen = Tk()
-    grille = grid_manager.create_random_grid_lc(3, 2, [0, 1])
+    grille = grid_manager.create_random_grid_lc(5, 5, [0, 1])
     cnv=grid_canvas(fen, grille, 20, 10, 0, show_vals=True, outline=True)
     cnv.pack()
     print(get_lines_columns(cnv))
@@ -102,4 +105,5 @@ if __name__ == "__main__":
     set_color_cell(cnv, 1, 1, "green", outline=True)
     set_color_text(cnv, 1, 1, "purple")
     set_cell_text(cnv, 1, 1, 8)
+    set_cell(cnv, grid_manager.create_random_grid_lc(5, 5, [0, 1]), 1, 1, 2, "white")
     fen.mainloop()

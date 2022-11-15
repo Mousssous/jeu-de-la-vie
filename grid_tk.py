@@ -23,11 +23,11 @@ def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
     longueurTableau=grid_manager.nb_columns(grid)*(size_cell+gutter)+gutter
     hauteurTableau=grid_manager.nb_lines(grid)*(size_cell+gutter)+gutter
     c = Canvas(master, bg=COLORS['bg'], highlightthickness=0, width=margin+longueurTableau+margin, height=margin+hauteurTableau+margin)
-
     for x,i in enumerate(range(margin, hauteurTableau+margin, size_cell+gutter)):
         for y,j in enumerate(range(margin, longueurTableau+margin, size_cell+gutter)):
             c.create_rectangle(j, i, j+size_cell, i+size_cell, fill="ivory", tags="c_{}_{}".format(str(x), str(y)), outline=(COLORS['outline'] if outline==True else ""))
             c.create_text(j+size_cell/2, i+size_cell/2, font=FONT['text_val'], fill=COLORS['text_val'], text=(grid[x][y] if show_vals==True else ""), tags="t_{}_{}".format(str(x), str(y)))
+    c.bind("<Button-1>", lambda event: c.itemconfig("c_{}_{}".format((event.y-margin-gutter)//size_cell, (event.x-margin-gutter)//size_cell), fill=COLORS["fg"]) if c.itemcget("c_{}_{}".format((event.y-margin-gutter)//size_cell, (event.x-margin-gutter)//size_cell), "fill")!=COLORS["fg"] else c.itemconfig("c_{}_{}".format((event.y-margin-gutter)//size_cell, (event.x-margin-gutter)//size_cell), fill="ivory"))
     return c
 
 def get_lines_columns(can):

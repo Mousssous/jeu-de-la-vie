@@ -2,7 +2,7 @@ from itertools import count
 import random
 from venv import create
 
-from numpy import False_
+#from numpy import False_
 
 
 def create_grid_lc(lin, col, val):

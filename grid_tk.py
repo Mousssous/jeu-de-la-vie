@@ -1,7 +1,7 @@
 from operator import invert
 from tkinter import *
 
-from matplotlib.pyplot import fill
+#from matplotlib.pyplot import fill
 
 import grid_manager
 
@@ -57,28 +57,29 @@ def get_color_cell(can, i, j):
 def set_color_cell(can, i, j, color, outline=True):
     """Rempli la cellule ('i', 'j') de la grille représentée par le Canvas 'can' par la couleur 'color'.
     Dessine ses bordures avec la couleur 'color' si 'outline' a la valeur 'False'."""
-    pass
+    can.itemconfig("c_{}_{}".format(i,j), fill = color )
+
 
 
 def get_color_text(can, i, j):
     """Retourne la couleur du texte de la cellule ('i', 'j') de la grille représentée par le Canvas 'can'."""
-    pass
+    return can.itemcget("t_{}_{}".format(i,j), "fill")
 
 
 def set_color_text(can, i, j, color):
     """Rempli le texte de la cellule ('i', 'j') de la grille représentée par le Canvas 'can' par la couleur 'color'."""
-    pass
+    can.itemconfig("t_{}_{}".format(i,j), fill = color )
 
 
 def set_cell_text(can, i, j, val):
     """Change la valeur du texte de la cellule ('i', 'j') du Canvas 'can' avec la valeur 'val'"""
-    pass
+    can.itemconfig("t_{}_{}".format(i,j), text = val)
 
 
 def swap_cell_colors(event, lin, col, outline=True):
     """Handler de l'événement 'event' produit par un click bouton gauche sur la cellule ('lin', 'col') d'une grille.
     Dessine les bordures du 'widget' appelant selon la valeur booléenne de 'outline'."""
-    pass
+    
 
 
 def set_cell(can, grid, i, j, val, color_case, show_vals=True, outline=True, color_text=COLORS['text_val']):
@@ -96,5 +97,5 @@ if __name__ == "__main__":
     cnv.pack()
     print(get_lines_columns(cnv))
     #print(get_grid(cnv))
-    
+    set_color_cell(cnv, 1, 2, "purple")
     fen.mainloop()

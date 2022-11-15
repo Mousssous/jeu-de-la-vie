@@ -35,7 +35,7 @@ def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
             c.itemconfig(tag, fill="ivory")
         else:
             c.itemconfig(tag, fill=COLORS["fg"])
-            
+        #print(get_color_cell(cnv,tag[2], tag[-1]))
     c.bind("<Button-1>", lambda event: onclick(event.x, event.y))
     return c
 
@@ -57,22 +57,25 @@ def get_color_cell(can, i, j):
 def set_color_cell(can, i, j, color, outline=True):
     """Rempli la cellule ('i', 'j') de la grille représentée par le Canvas 'can' par la couleur 'color'.
     Dessine ses bordures avec la couleur 'color' si 'outline' a la valeur 'False'."""
-    pass
+    if outline:
+        can.itemconfig("c_{}_{}".format(i,j), fill=color)
+    '''else:
+        can.itemconfig("c_{}_{}".format(i,j), fill=color)'''
 
 
 def get_color_text(can, i, j):
     """Retourne la couleur du texte de la cellule ('i', 'j') de la grille représentée par le Canvas 'can'."""
-    pass
+    return can.itemcget("t_{}_{}".format(i,j), "fill")
 
 
 def set_color_text(can, i, j, color):
     """Rempli le texte de la cellule ('i', 'j') de la grille représentée par le Canvas 'can' par la couleur 'color'."""
-    pass
+    can.itemconfig("t_{}_{}".format(i,j), fill=color)
 
 
 def set_cell_text(can, i, j, val):
     """Change la valeur du texte de la cellule ('i', 'j') du Canvas 'can' avec la valeur 'val'"""
-    pass
+    can.itemconfig(("t_{}_{}".format(i,j)), text=val)
 
 
 def swap_cell_colors(event, lin, col, outline=True):
@@ -96,5 +99,7 @@ if __name__ == "__main__":
     cnv.pack()
     print(get_lines_columns(cnv))
     #print(get_grid(cnv))
-    
+    set_color_cell(cnv, 1, 1, "green", outline=True)
+    set_color_text(cnv, 1, 1, "purple")
+    set_cell_text(cnv, 1, 1, 8)
     fen.mainloop()

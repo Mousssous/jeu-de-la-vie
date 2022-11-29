@@ -43,11 +43,11 @@ def neighbour(grid, lin, col, delta, tore=True):
     Si 'tore' est à 'True' le voisin existe toujours en considérant 'grid' comme un tore.
     Si 'tore' est à 'False' retourne 'None' lorsque le voisin est hors de la grille 'grid'."""
     if tore==True:
-            if lin+delta[0]>nb_lines(grid) and col+delta[1]>nb_columns(grid):
+            if lin+delta[0]>=nb_lines(grid) and col+delta[1]>=nb_columns(grid):
                 return (lin+delta[0]-nb_lines(grid),col+delta[1]-nb_columns(grid))
-            elif lin+delta[0]>nb_lines(grid):
+            elif lin+delta[0]>=nb_lines(grid):
                 return (lin+delta[0]-nb_lines(grid),col+delta[1])
-            elif col+delta[1]>nb_columns(grid):
+            elif col+delta[1]>=nb_columns(grid):
                 return (lin+delta[0],col+delta[1]-nb_columns(grid))
             else:
                 return (lin+delta[0],col+delta[1])
@@ -64,7 +64,7 @@ def neighborhood(grid, lin, col, deltas, tore=True):
     correspondant aux N (delta_lin, delta_col) fournis par la liste 'deltas'.
     Si 'tore' est à 'True' le voisin existe toujours en considérant 'grid' comme un tore.
     Si 'tore' est à 'False' un voisin hors de la grille 'grid' n'est pas considéré."""
-    return [neighbour(grid, lin, col, i) for i in deltas]
+    return [neighbour(grid, lin, col, i, tore) for i in deltas]
 
 
 if __name__ == "__main__":

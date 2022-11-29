@@ -6,7 +6,7 @@ from matplotlib.pyplot import fill
 import grid_manager
 
 # Dictionnaires des paramètres de forme d'une grille
-COLORS = {'bg': 'white', 'fg': 'red', 'outline': 'black', 'text_val': 'black'}
+COLORS = {'bg': 'white', 'fg': 'yellow', 'outline': 'black', 'text_val': 'black'}
 FONT = {'text_val': 'Arial'}
 
 
@@ -25,18 +25,20 @@ def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
     c = Canvas(master, bg=COLORS['bg'], highlightthickness=0, width=margin+longueurTableau+margin, height=margin+hauteurTableau+margin)
     for y,i in enumerate(range(margin, hauteurTableau+margin, size_cell+gutter)):
         for x,j in enumerate(range(margin, longueurTableau+margin, size_cell+gutter)):
-            c.create_rectangle(j, i, j+size_cell, i+size_cell, fill="ivory", tags="c_{}_{}".format(str(x), str(y)), outline=COLORS['outline'] if outline==True else "")
-            c.create_text(j+size_cell/2, i+size_cell/2, font=FONT['text_val'], fill=COLORS['text_val'], text=(grid[y][x] if show_vals==True else ""), tags="t_{}_{}".format(str(x), str(y)))
+            c.create_rectangle(j, i, j+size_cell, i+size_cell, fill=COLORS["bg"] if grid[y][x]==0 else COLORS["fg"], tags="c_{}_{}".format(x, y), outline=COLORS['outline'] if outline==True else "")
+            c.tag_bind("c_{}_{}".format(x, y), "<Button-1>", lambda event: swap_cell_colors(event, x, y, outline))
+            c.create_text(j+size_cell/2, i+size_cell/2, font=FONT['text_val'], fill=COLORS['text_val'], text=(grid[y][x] if show_vals==True else ""), tags="t_{}_{}".format(x, y))
+            c.tag_bind("t_{}_{}".format(x, y), "<Button-1>", lambda event: swap_cell_colors(event, x, y, outline))
 
-    def onclick(x,y):
+    def onclick(x,y, a):
         tag = "c_{}_{}".format((x-margin-gutter)//size_cell, (y-margin-gutter)//size_cell)
 
         if c.itemcget(tag, "fill")==COLORS["fg"]:
-            c.itemconfig(tag, fill="ivory")
+            c.itemconfig(tag, fill=COLORS["bg"])
         else:
             c.itemconfig(tag, fill=COLORS["fg"])
         #print(get_color_cell(cnv,tag[2], tag[-1]))
-    c.bind("<Button-1>", lambda event: onclick(event.x, event.y))
+    #c.bind("<Button-1>", lambda event: onclick(event.x, event.y, event))
     return c
 
 def get_lines_columns(can):
@@ -80,7 +82,7 @@ def set_cell_text(can, i, j, val):
 def swap_cell_colors(event, lin, col, outline=True):
     """Handler de l'événement 'event' produit par un click bouton gauche sur la cellule ('lin', 'col') d'une grille.
     Dessine les bordures du 'widget' appelant selon la valeur booléenne de 'outline'."""
-    pass
+    size_cell=event.widget.bbox("c_0_0")[2]-event.widget.bbox("c_0_0")[0]
 
 
 def set_cell(can, grid, i, j, val, color_case, show_vals=True, outline=True, color_text=COLORS['text_val']):

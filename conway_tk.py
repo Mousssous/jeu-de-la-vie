@@ -12,29 +12,33 @@ def create_alea_conway(lines, columns, size_cell, margin, gutter, show_vals, out
 
 def evolve_conway(can, grid):
     """Fait évoluer la grille 'grid' et le Canvas 'can' selon les règles de l'automate de Conway"""
-    voisins=[[grid_manager.neighborhood(grid, lin, col, DELTAS_CONWAY) for col in range(grid_manager.nb_columns(grid))] for lin in range(grid_manager.nb_lines(grid))]
-    valeursVoisins=[[[grid[i[0]][i[1]] for i in voisins[lin][col]] for col in range(grid_manager.nb_columns(voisins))] for lin in range(grid_manager.nb_lines(voisins))]
-
-    for lin in range(len(valeursVoisins)):
-        for col in range(len(valeursVoisins[lin])):
-            if valeursVoisins[lin][col].count(1)==3:
-                grid[lin][col]=1
-            if valeursVoisins[lin][col].count(1)==2:
-                pass
-            if valeursVoisins[lin][col].count(1)<2 or valeursVoisins[lin][col].count(1)>3:
-                grid[lin][col]=0
+    coordonneesVoisins=[]
+    for lin in range(grid_tk.get_lines_columns(can)[0]):
+        coordonneesVoisins.append([grid_manager.neighborhood(grid, lin, col, DELTAS_CONWAY) for col in range(grid_tk.get_lines_columns(can)[1])])
     
-    for lin in range(grid_manager.nb_lines(grid)):
-        for col in range(grid_manager.nb_columns(grid)):
-            grid_tk.set_cell_text(can, lin, col, grid[lin][col])
-            grid_tk.set_color_cell(can, lin, col)
+    valeursVoisins=coordonneesVoisins
+    for lin in range(len(coordonneesVoisins)):
+        for col in range(len(coordonneesVoisins[lin])):
+            numeroVoisin=0
+            for voisin in coordonneesVoisins[lin][col]:
+                valeursVoisins[lin][col][numeroVoisin]=grid[voisin[0]][voisin[1]]
+                numeroVoisin+=1
+
+    for lin in range(grid_tk.get_lines_columns(can)[0]):
+        for col in range(grid_tk.get_lines_columns(can)[1]):
+
+            if valeursVoisins[lin][col].count("1")<2 or valeursVoisins[lin][col].count(1)>3:
+                grid_tk.set_cell(can, grid, lin, col, 0, grid_tk.COLORS["bg"])
+
+            elif valeursVoisins[lin][col].count("1")==3:
+                grid_tk.set_cell(can, grid, lin, col, 1, grid_tk.COLORS["fg"])
     
 
 if __name__ == "__main__":
     """Définitions des variables de test et des tests de chaque fonction"""
     DELTAS_CONWAY = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
     w=Tk()
-    c=create_alea_conway(2, 2, 30, 5, 0, True, True)
+    c=create_alea_conway(10, 15, 30, 10, 0, True, True)
     c[1].pack()
-    w.bind("<Return>", lambda event: evolve_conway(c[1], c[0]))
+    w.bind("<Return>", lambda event: evolve_conway(c[1], grid_tk.get_grid(c[1])))
     w.mainloop()

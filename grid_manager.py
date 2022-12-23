@@ -58,7 +58,6 @@ def neighbour(grid, lin, col, delta, tore=True):
             return (lin+delta[0],col+delta[1])
 
 
-
 def neighborhood(grid, lin, col, deltas, tore=True):
     """Retourne pour la grille 'grid' la liste des N voisins de 'grid[lin][col]'
     correspondant aux N (delta_lin, delta_col) fournis par la liste 'deltas'.

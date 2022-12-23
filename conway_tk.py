@@ -41,4 +41,5 @@ if __name__ == "__main__":
     c=create_alea_conway(10, 15, 30, 10, 0, True, True)
     c[1].pack()
     w.bind("<Return>", lambda event: evolve_conway(c[1], grid_tk.get_grid(c[1])))
+    w.after(500, evolve_conway, c[1], grid_tk.get_grid(c[1]))
     w.mainloop()

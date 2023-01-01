@@ -9,7 +9,6 @@ import grid_manager
 COLORS = {"bg": "white", "fg": "red", "outline": "black", "text_val": "black"}
 FONT = {"text_val": "Arial"}
 
-
 def grid_canvas(master, grid, size_cell, margin, gutter, show_vals, outline):
     """Retourne un 'Canvas' placé dans la fenêtre 'master'. Celui-ci est construit à partir de la grille 'grid'
     en s'appuyant sur les modules 'grid_manager' et 'tkinter' ainsi que sur les dictionnaires des paramètres de forme.
@@ -65,11 +64,12 @@ def get_lines_columns(can):
     """Retourne le nombre de lignes et de colonnes de la grille représentée par le Canvas 'can'."""
     return (len([can.gettags(i) for i in can.find_all() if can.gettags(i)[0][-2:] == "_0" and can.gettags(i)[0][0] == "c"  ]), len([can.gettags(i) for i in can.find_all() if can.gettags(i)[0][0:4] == "c_0_"]))
 
-
 def get_grid(can):
     """Retourne la grille représentée par le Canvas 'can'."""
-    return [[0 if can.itemcget(f"c_{lin}_{col}", "fill") == COLORS["bg"] else 1 for col in range(get_lines_columns(can)[1])] for lin in range(get_lines_columns(can)[0])]
+    nbLignes=get_lines_columns(can)[0]
+    nbColonnes=get_lines_columns(can)[1]
 
+    return [[0 if can.itemcget(f"c_{lin}_{col}", "fill") == COLORS["bg"] else 1 for col in range(nbColonnes)] for lin in range(nbLignes)]
 
 def get_color_cell(can, i, j):
     """Retourne la couleur de la cellule ('i', 'j') de la grille représentée par le Canvas 'can'."""

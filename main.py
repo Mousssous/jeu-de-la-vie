@@ -57,9 +57,7 @@ def evolution(canvas, periode):
     #fonction d'évolution dans conway_tk
     conway_tk.evolve_conway(canvas, grid_tk.get_grid(canvas))
 
-
 def lancerPartie(mode):
-
     #seule la façon dont la grille est générée change en fonction des modes de jeu donc on la crée avant pour ensuite la donner à la fonction générale grid_canvas dans grid_tk
     
     #grille aléatoire
@@ -85,11 +83,7 @@ def lancerPartie(mode):
             int(columns.get()),
             0,
         )
-
-    #création de la grille selon les données du fichier
-    elif "Modèles sauvegardés":
-        pass
-
+    
     global fenetreJeu
     
     #création de la fenêtre de jeu
@@ -106,6 +100,7 @@ def lancerPartie(mode):
     }
     #création du canvas dans la fenetre fenetreJeu avec les paramètres listés ci-dessus
     canvas = grid_tk.grid_canvas(**parametres)
+    
     canvas.pack()
     
     if delai.get() != 0:
@@ -120,7 +115,7 @@ def lancerPartie(mode):
                 boutonPause.config(text="Reprendre") if boutonPause.cget("text")=="Pause" else boutonPause.config(text="Pause")
             ),
         )
-        boutonPause.pack(side=BOTTOM)
+        boutonPause.pack(side=BOTTOM, pady=10)
 
     #bouton pour passer à la génération suivante qui sera crée dans tous les cas
     Button(
@@ -128,7 +123,7 @@ def lancerPartie(mode):
         text="Evoluer",
         name="evolution manuelle",
         command=lambda: evolution(canvas, "evoluer"),
-    ).pack(side=BOTTOM)
+    ).pack(side=BOTTOM, pady=10)
 
     global repetition
     repetition=fenetreJeu.after(delai.get(), evolution, canvas, True)
@@ -139,7 +134,6 @@ def lancerPartie(mode):
 
 
 def creerFenetreParametres(mode):
-
     global fenetreParametres, fenetreJeu, lines, columns, size_cell, margin, gutter, show_vals, outline, delai
 
     fenetreParametres = Toplevel()
@@ -151,9 +145,9 @@ def creerFenetreParametres(mode):
     show_vals=StringVar(); outline=StringVar()
 
     #valeurs par défaut
-    lines.set(10)
-    columns.set(10)
-    size_cell.set(20)
+    lines.set(40)
+    columns.set(40)
+    size_cell.set(10)
     margin.set(10)
     gutter.set(0)
     show_vals.set("Non")
@@ -217,7 +211,7 @@ def creerFenetreParametres(mode):
     Button(fenetreParametres, text="Retour", command=fenetreParametres.destroy).grid(
         row=6, column=4, padx=10, pady=10
     )
-
+    
 #menu principal
 menu = Tk()
 
@@ -239,8 +233,5 @@ Button(
     command=lambda: creerFenetreParametres("Nouvelle partie pleine"),
 ).grid(row=4, column=1, padx=10, pady=10)
 
-Button(menu, text="Modèles sauvegardés", command=None).grid(row=5, column=1, padx=10, pady=10)
 Button(menu, text="Fermer", command=menu.destroy).grid(row=6, column=1, padx=10, pady=20)
-
-
 menu.mainloop()

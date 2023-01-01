@@ -19,26 +19,29 @@ def evolve_conway(can, grid):
     nbLignes=grid_manager.nb_lines(grid)
     nbColonnes=grid_manager.nb_columns(grid)
 
+    #nombre de uns parmi les voisins de la cellule ('lin', 'col')
+    nbUns=[[[grid[i[0]][i[1]] for i in grid_manager.neighborhood(grid, lin, col, DELTAS_CONWAY)].count(1) for col in range(nbColonnes)] for lin in range(nbLignes)]
+
     for lin in range(nbLignes):
         for col in range(nbColonnes):
-            if [grid[i[0]][i[1]] for i in grid_manager.neighborhood(grid, lin, col, DELTAS_CONWAY)].count(1) < 2 or [grid[i[0]][i[1]] for i in grid_manager.neighborhood(grid, lin, col, DELTAS_CONWAY)].count(1) > 3:
+            if nbUns[lin][col]<2 or nbUns[lin][col]>3:
                 grid_tk.set_color_cell(
                     can, lin, col,
                     grid_tk.COLORS["bg"],
                     False if can.itemcget("t_0_0", "text") == "" else True,
                 )
                 if can.itemcget("t_0_0", "text")!="":
-                    grid_tk.set_cell_text( can, lin, col, 0)
+                    grid_tk.set_cell_text(can, lin, col, 0)
 
-            elif [grid[i[0]][i[1]] for i in grid_manager.neighborhood(grid, lin, col, DELTAS_CONWAY)].count(1) == 3:
+            elif nbUns[lin][col]==3:
                 grid_tk.set_color_cell(
                     can, lin, col,
                     grid_tk.COLORS["fg"],
                     False if can.itemcget("t_0_0", "text") == "" else True,
                 )
                 if can.itemcget("t_0_0", "text")!="":
-                    grid_tk.set_cell_text( can, lin, col, 1)
-    
+                    grid_tk.set_cell_text(can, lin, col, 1)
+
 
 if __name__ == "__main__":
     """Définitions des variables de test et des tests de chaque fonction"""

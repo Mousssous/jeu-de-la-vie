@@ -36,7 +36,9 @@ def line2str(grid, line, sep="\t"):
 def grid2str(grid, sep="\t"):
     """Retourne la chaine de caractère correspondant à la grille 'grid'.
     Les caractères de chaque ligne de 'grid' sont séparés par le caractère 'sep'"""
-    return "\n".join([line2str(grid, i, sep) for i in grid])
+    lignes=nb_lines(grid)
+
+    return sep.join([line2str(grid, lin, sep) for lin in range(len(grid))])
 
 
 def neighbour(grid, lin, col, delta, tore=True):

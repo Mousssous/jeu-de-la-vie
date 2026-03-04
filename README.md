@@ -43,7 +43,7 @@ These simple rules can produce complex and emergent behaviors.
 
 ### Requirements
 
-- Python **3.10 or higher**
+- Any version of Python 3 **(Python 3.10 recommended)**
 
 Dependencies are defined in `pyproject.toml`.
 
@@ -53,3 +53,9 @@ If you use **uv**, install the dependencies with:
 
 ```bash
 uv sync
+
+### Install with pip
+
+```bash
+pip install -e
+

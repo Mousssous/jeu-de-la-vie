@@ -53,13 +53,15 @@ If you use **uv**, install the dependencies with:
 
 ```bash
 uv sync
+source .venv/bin/activate (on Linux) | .venv\Scripts\activate (on Windows)
+python main.py
 ```
 
 ### Install with pip
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate (on Linux) / .venv\Scripts\activate (on Windows)
+source .venv/bin/activate (on Linux) | .venv\Scripts\activate (on Windows)
 pip install -e .
 python main.py
 ```

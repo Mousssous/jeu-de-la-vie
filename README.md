@@ -53,9 +53,11 @@ If you use **uv**, install the dependencies with:
 
 ```bash
 uv sync
+```
 
 ### Install with pip
 
 ```bash
 pip install -e
+```
 

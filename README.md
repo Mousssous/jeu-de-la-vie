@@ -58,6 +58,9 @@ uv sync
 ### Install with pip
 
 ```bash
-pip install -e
+python -m venv .venv
+source .venv/bin/activate (on Linux) / .venv\Scripts\activate (on Windows)
+pip install -e .
+python main.py
 ```
 

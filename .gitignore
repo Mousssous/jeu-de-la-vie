@@ -1,6 +1,2 @@
-test.py
-__pycache__/grid_manager.cpython-310.pyc
-__pycache__/grid_tk.cpython-310.pyc
-__pycache__/conway_tk.cpython-310.pyc
-__pycache__/main.cpython-310.pyc
-jsp.py
+__pycache__/
+venv/

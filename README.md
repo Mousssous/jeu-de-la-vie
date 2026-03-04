@@ -1,55 +1,55 @@
-# Jeu de la Vie — Conway Game of Life
+# Game of Life — Conway
 
-Ce projet est une implémentation du **Jeu de la vie de Conway** en **Python** avec une interface graphique réalisée avec **Tkinter**.
+This project is a **Python implementation of Conway's Game of Life** with a **Tkinter graphical interface**.
 
-Le programme permet de créer, modifier et observer l'évolution d'une population de cellules sur une grille selon les règles classiques du Game of Life.
-
----
-
-## Principe
-
-Le **Jeu de la vie** est un automate cellulaire inventé par le mathématicien **John Conway** en 1970.
-
-Chaque cellule d'une grille peut être dans l'un des deux états suivants :
-
-- vivante
-- morte
-
-À chaque génération, l'état des cellules évolue selon les règles suivantes :
-
-1. Une cellule vivante avec moins de **2 voisines vivantes** meurt (sous-population).
-2. Une cellule vivante avec **2 ou 3 voisines vivantes** survit.
-3. Une cellule vivante avec plus de **3 voisines vivantes** meurt (surpopulation).
-4. Une cellule morte avec exactement **3 voisines vivantes** devient vivante (naissance).
-
-Ces règles simples peuvent produire des comportements complexes et émergents.
+The program allows users to create, edit, and observe the evolution of a population of cells on a grid according to the classic rules of the Game of Life.
 
 ---
 
-## Fonctionnalités
+## Concept
 
-- Interface graphique avec **Tkinter**
-- Création de grilles :
-  - aléatoire
-  - vide
-  - pleine
-- Modification des cellules avec la souris
-- Simulation **pas à pas** ou **automatique**
-- Sauvegarde et chargement de modèles dans le dossier `templates`
+The **Game of Life** is a cellular automaton created by mathematician **John Conway** in 1970.
+
+Each cell in a grid can be in one of two states:
+
+- alive
+- dead
+
+At each generation, the state of the grid evolves according to the following rules:
+
+1. A living cell with fewer than **2 live neighbors** dies (underpopulation).
+2. A living cell with **2 or 3 live neighbors** survives.
+3. A living cell with more than **3 live neighbors** dies (overpopulation).
+4. A dead cell with exactly **3 live neighbors** becomes alive (reproduction).
+
+These simple rules can produce complex and emergent behaviors.
+
+---
+
+## Features
+
+- **Tkinter graphical interface**
+- Grid generation:
+  - random
+  - empty
+  - full
+- Edit cells by clicking on them
+- **Step-by-step** or **automatic** simulation
+- Save and load grid templates from the `templates` directory
 
 ---
 
 ## Installation
 
-### Prérequis
+### Requirements
 
-- Python **3.10 ou supérieur**
+- Python **3.10 or higher**
 
-Les dépendances sont définies dans le fichier `pyproject.toml`.
+Dependencies are defined in `pyproject.toml`.
 
-### Installation avec uv (recommandé)
+### Install with uv (recommended)
 
-Si vous utilisez **uv**, installez simplement les dépendances avec :
+If you use **uv**, install the dependencies with:
 
 ```bash
 uv sync
